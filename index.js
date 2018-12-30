@@ -16,8 +16,14 @@ var controllers = require(__dirname + "/apps/controllers");
 
 app.use(controllers);
 
+var autoUpdate = require("./apps/common/auto_update");
+
 var host = config.get("server.host");
 var port = config.get("server.port");
 app.listen(port, host, function () {
-    console.log("Serve is listening in PORT ", port);
+    console.log("NODE_API: Serve is listening in PORT ", port);
+    autoUpdate.updateCurrency();
+    setInterval(() => {
+        autoUpdate.updateCurrency();
+    }, 86400000);
 });
