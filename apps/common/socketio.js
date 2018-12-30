@@ -1,7 +1,7 @@
 module.exports = function(io){
 
     var db_model = require('../models/db_models');
-    var data_tb = require('../common/data_tb');
+    var data_table = 'mryu_users';
 
     var USERSDATA = [];
     var isOnlines = [];
@@ -109,7 +109,6 @@ module.exports = function(io){
                     }
                     socket.broadcast.emit("update_user_status", data);
 
-                    let data_table = data_tb.table.mryu_user;
                     let set = 'connecting = ?';
                     let where = 'username';
                     let params = ['0', socket.username];
@@ -152,7 +151,6 @@ module.exports = function(io){
                     }
                     socket.broadcast.emit("update_user_status", data);
 
-                    let data_table = data_tb.table.mryu_user;
                     let set = 'connecting = ?';
                     let where = 'username';
                     let params = ['0', socket.username];
@@ -306,7 +304,6 @@ module.exports = function(io){
                 }
                 socket.broadcast.emit("update_user_status", data);
 
-                let data_table = data_tb.table.mryu_user;
                 let set = 'connecting = ?';
                 let where = 'username';
                 let params = ['0', socket.username];
