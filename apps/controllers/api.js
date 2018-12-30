@@ -219,12 +219,14 @@ router.post("/add-data", jsonParser, (req, res) => {
         }
 
         var time = new Date();
-        var year = time.getFullYear();
-        var month = time.getMonth() + 1;
-        var date = time.getDate();
+        var vnTime = time.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' });
+        var thisTime = new Date(vnTime);
+        var year = thisTime.getFullYear();
+        var month = thisTime.getMonth() + 1;
+        var date = thisTime.getDate();
 
         if (options.setTime) {
-            fields.createdTime = time;
+            fields.createdTime = thisTime;
         }
 
         if (options.setYear) {

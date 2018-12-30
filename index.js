@@ -22,10 +22,16 @@ var host = config.get("server.host");
 var port = config.get("server.port");
 var server = app.listen(port, host, function () {
     console.log("NODE_API: Serve is listening in PORT ", port);
-    autoUpdate.updateCurrency();
+    let time = new Date();
+    let vnTime = time.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' });
+    let today = new Date(vnTime);
+    console.log('To day is: ' + today);
+    let hour = today.getHours();
     setInterval(() => {
-        autoUpdate.updateCurrency();
-    }, 86400000);
+        if (hour == 7) {
+            autoUpdate.updateCurrency();
+        }
+    }, 3600000);
 });
 
 var io = socketio(server);
