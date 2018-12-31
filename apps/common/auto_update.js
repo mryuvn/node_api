@@ -24,13 +24,15 @@ function updateCurrency () {
             });
             let content = data.join(' || ');
             let time = new Date();
+            let vnTime = time.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' });
+            let thisTime = new Date(vnTime);
             let id = 1;
             let data_table = 'mryu_currencies';
             let set = 'content = ?, updateTime = ?';
             let where = 'id';
-            let params = [content, time, id];
+            let params = [content, thisTime, id];
             db_model.editData(data_table, set, where, params)
-            .then(result => console.log('Updated currencies data on ' + time))
+            .then(result => console.log('Updated currencies data on ' + thisTime))
             .catch(err => console.log(err));
         }
     }); 
