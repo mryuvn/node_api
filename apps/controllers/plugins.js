@@ -130,7 +130,7 @@ router.get("/get-data-currencies", (req, res) => {
     }).catch(err => res.json({"mess": "fail", "err": err}));
 });
 
-router.get("/update-currencies", jsonParser, (req, res) => {
+router.get("/update-currencies", (req, res) => {
     if (req.query.secur_key == api_secur.secur) {
         var url = 'http://www.vietcombank.com.vn/exchangerates/ExrateXML.aspx';
         request(url, (err, response, body) => {
