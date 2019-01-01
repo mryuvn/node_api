@@ -130,8 +130,8 @@ router.get("/get-data-currencies", (req, res) => {
     }).catch(err => res.json({"mess": "fail", "err": err}));
 });
 
-router.post("/update-currencies", jsonParser, (req, res) => {
-    if (req.body.mess == 'UpdateCurrencies') {
+router.get("/update-currencies", jsonParser, (req, res) => {
+    if (req.query.secur_key == api_secur.secur) {
         var url = 'http://www.vietcombank.com.vn/exchangerates/ExrateXML.aspx';
         request(url, (err, response, body) => {
             if (err) {
@@ -172,7 +172,7 @@ router.post("/update-currencies", jsonParser, (req, res) => {
     } else {
         res.json({
             "mess": "fail",
-            "err": "Fail to call Update currencies command!"
+            "err": "Security key not right!"
         });
     }
 });
