@@ -157,7 +157,7 @@ router.post("/change-password", jsonParser, (req, res) => {
             "newPass": newPass
         })).catch(err => res.json({
             "mess": "fail",
-            "err": "Can not update your new Password"
+            "err": err
         }));
     } else {
         res.json({"mess": "fail", "err": "No data posted!"});

@@ -28,9 +28,14 @@ router.get("/random-string", (req, res) => {
     //     lowercase
     //     uppercase
 
+    if (req.query.number) { var number = req.query.number; } else { var number = 9; }
 
-    var code = random.new(9, 'alphanumeric', 'uppercase');
-    res.send(code);
+    if (req.query.charset) { var charset = req.query.charset; } else { var charset = 'alphanumeric'; }
+
+    if (req.query.capitalization) { var capitalization = req.query.capitalization; } else { var capitalization = 'lowercase'; }
+
+    var string = random.new(number, charset, capitalization);
+    res.json({"result": string});
 });
 
 router.get("/md5-string/:string", (req, res) => {
