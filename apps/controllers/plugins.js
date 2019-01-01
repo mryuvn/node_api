@@ -35,19 +35,19 @@ router.get("/random-string", (req, res) => {
     if (req.query.capitalization) { var capitalization = req.query.capitalization; } else { var capitalization = 'lowercase'; }
 
     var string = random.new(number, charset, capitalization);
-    res.json({"result": string});
+    res.json({ "result": string });
 });
 
 router.get("/md5-string/:string", (req, res) => {
     var string = req.params.string;
     var result = md5(string);
-    res.json({"result": result});
+    res.json({ "result": result });
 });
 
 router.get("/written-number/:number/:lang", (req, res) => {
     var number = req.params.number;
     var lang = req.params.lang;
-    var text = writtenNumber(number, {lang: lang});
+    var text = writtenNumber(number, { lang: lang });
     res.json({
         result: text
     });
@@ -107,27 +107,27 @@ router.get("/get-data-currencies", (req, res) => {
     var where = '';
     var orderBy = '';
     db_model.getData(db, fields, where, orderBy)
-    .then(resData => {
-        if (resData == '') {
-            res.json({"mess":"fail", "err":"dataNotFound"});
-        } else {
-            var data = resData[0];
-            var currencies = data.content.split(' || ');
-            data.currenciesData = [];
-            currencies.forEach(e => {
-                let arr = e.split(' | ');
-                let newData = {
-                    code: arr[0],
-                    name: arr[1],
-                    buy: arr[2],
-                    transfer: arr[3],
-                    sell: arr[4]
-                }
-                data.currenciesData.push(newData);
-            });
-            res.json(data);
-        }
-    }).catch(err => res.json({"mess": "fail", "err": err}));
+        .then(resData => {
+            if (resData == '') {
+                res.json({ "mess": "fail", "err": "dataNotFound" });
+            } else {
+                var data = resData[0];
+                var currencies = data.content.split(' || ');
+                data.currenciesData = [];
+                currencies.forEach(e => {
+                    let arr = e.split(' | ');
+                    let newData = {
+                        code: arr[0],
+                        name: arr[1],
+                        buy: arr[2],
+                        transfer: arr[3],
+                        sell: arr[4]
+                    }
+                    data.currenciesData.push(newData);
+                });
+                res.json(data);
+            }
+        }).catch(err => res.json({ "mess": "fail", "err": err }));
 });
 
 router.get("/update-currencies", (req, res) => {
@@ -156,17 +156,19 @@ router.get("/update-currencies", (req, res) => {
                 });
                 let content = data.join(' || ');
                 let time = new Date();
+                var vnTime = time.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' });
+                var thisTime = new Date(vnTime);
                 let id = 1;
                 let data_table = 'mryu_currencies';
                 let set = 'content = ?, updateTime = ?';
                 let where = 'id';
-                let params = [content, time, id];
+                let params = [content, thisTime, id];
                 db_model.editData(data_table, set, where, params)
-                .then(result => res.json({"mess": "ok"}))
-                .catch(err => res.json({
-                    "mess": "fail",
-                    "err": err
-                }));
+                    .then(result => res.json({ "mess": "ok" }))
+                    .catch(err => res.json({
+                        "mess": "fail",
+                        "err": err
+                    }));
             }
         });
     } else {
