@@ -142,6 +142,28 @@ router.post("/reset-password", jsonParser, (req, res) => {
     }
 });
 
+router.post("/change-password", jsonParser, (req, res) => {
+    if (req.body) {
+        let id = req.body.id;
+        let newPass = req.body.newPassword;
+        let password = md5(req.body.newPassword + req.body.username);
+        let login_code = random.new(9, 'alphanumeric');
+        let set = 'password = ?, login_code = ?';
+        let where = 'id';
+        let params = [password, login_code, id];
+        db_model.editData(user_table, set, where, params)
+        .then(result => res.json({
+            "mess": "ok",
+            "newPass": newPass
+        })).catch(err => res.json({
+            "mess": "fail",
+            "err": "Can not update your new Password"
+        }));
+    } else {
+        res.json({"mess": "fail", "err": "No data posted!"});
+    }
+});
+
 router.post("/add-user", jsonParser, (req, res) => {
     if (req.body) {
         let fields = req.body;
